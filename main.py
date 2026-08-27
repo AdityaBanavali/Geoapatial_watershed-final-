@@ -403,3 +403,9 @@ def watershed_analysis(payload: dict[str, Any] = Body(...)) -> dict[str, Any]:
     except Exception as e:
         logger.exception("Critical backend error during watershed analysis")
         raise HTTPException(status_code=500, detail=str(e))
+
+
+if __name__ == "__main__":
+    import uvicorn
+    port = int(os.getenv("PORT", 8080))
+    uvicorn.run("main:app", host="0.0.0.0", port=port)
