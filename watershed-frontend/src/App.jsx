@@ -52,7 +52,7 @@ L.Icon.Default.mergeOptions({
   shadowUrl: 'https://unpkg.com/leaflet@1.9.4/dist/images/marker-shadow.png',
 })
 
-const API_URL = `${import.meta.env.VITE_API_URL}/watershed-analysis`;
+const API_URL = 'https://geospatialwatershed-final-production.up.railway.app';
 const INITIAL_CENTER = [20.5937, 78.9629]
 
 function GeomanControls({ onPolygonCreated }) {
