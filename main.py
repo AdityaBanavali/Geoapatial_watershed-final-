@@ -53,12 +53,20 @@ def _credentials_from_environment() -> Any:
     key_file = os.getenv("EE_SERVICE_ACCOUNT_KEY") or os.getenv(
         "GOOGLE_APPLICATION_CREDENTIALS"
     )
+    service_account_json = os.getenv("EE_SERVICE_ACCOUNT_JSON")
 
     if service_account and private_key:
         return ee.ServiceAccountCredentials(
             service_account,
             key_data=private_key.replace("\\n", "\n"),
         )
+
+    if service_account_json:
+        key_data = json.loads(service_account_json)
+        account = key_data.get("client_email")
+        if not account or not key_data.get("private_key"):
+            raise RuntimeError("EE_SERVICE_ACCOUNT_JSON must contain client_email and private_key")
+        return ee.ServiceAccountCredentials(account, key_data=service_account_json)
 
     if key_file:
         with open(key_file, encoding="utf-8") as credentials_file:
@@ -69,37 +77,6 @@ def _credentials_from_environment() -> Any:
         return ee.ServiceAccountCredentials(account, key_data=key_data["private_key"])
 
     return None
-
-
-def initialize_earth_engine() -> None:
-    """Initialize Earth Engine once, using ADC/project, user OAuth, or service-account credentials."""
-    global _ee_initialized
-    if _ee_initialized:
-        return
-    if ee is None:
-        raise RuntimeError("Install earthengine-api before starting the backend")
-
-    load_dotenv(override=True)
-    project_id = os.getenv("EE_PROJECT_ID")
-    credentials = _credentials_from_environment()
-
-    try:
-        if credentials is not None:
-            ee.Initialize(credentials=credentials, project=project_id)
-        elif project_id:
-            ee.Initialize(project=project_id)
-        else:
-            ee.Initialize()
-        _ee_initialized = True
-        logger.info("Google Earth Engine initialized%s", f" for project {project_id}" if project_id else "")
-    except Exception as e:
-        logger.exception("Earth Engine initialization failed")
-        raise RuntimeError(
-            f"Google Earth Engine initialization failed ({e}). "
-            "Please configure your Google Cloud Project ID in .env (e.g. EE_PROJECT_ID=your-project-id) "
-            "or set up Service Account credentials."
-        ) from e
-
 
 @app.get("/")
 def read_root():
