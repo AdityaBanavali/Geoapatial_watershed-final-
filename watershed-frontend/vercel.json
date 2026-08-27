@@ -1,0 +1,12 @@
+{
+  "rewrites": [
+    {
+      "source": "/api/watershed-analysis",
+      "destination": "https://geospatial-watershed.onrender.com/api/watershed-analysis"
+    },
+    {
+      "source": "/api/watershed-analysis/",
+      "destination": "https://geospatial-watershed.onrender.com/api/watershed-analysis/"
+    }
+  ]
+}
