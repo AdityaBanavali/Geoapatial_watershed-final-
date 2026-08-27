@@ -236,6 +236,25 @@ def _generate_ai_recommendations(
 
     return recommendations
 
+def initialize_earth_engine() -> None:
+    """Initialize Earth Engine globally using environment credentials if not already done."""
+    global _ee_initialized
+    if _ee_initialized:
+        return
+    if ee is None:
+        raise RuntimeError("The earthengine-api package is not installed")
+
+    project_id = os.getenv("EE_PROJECT_ID")
+    credentials = _credentials_from_environment()
+
+    if credentials:
+        ee.Initialize(credentials, project=project_id)
+    else:
+        # Fallback to default/interactive auth if no service account is found
+        ee.Initialize(project=project_id)
+
+    _ee_initialized = True
+
 
 def _analyze_polygon(geojson: dict[str, Any]) -> dict[str, Any]:
     initialize_earth_engine()
