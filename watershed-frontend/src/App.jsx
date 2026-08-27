@@ -52,7 +52,7 @@ L.Icon.Default.mergeOptions({
   shadowUrl: 'https://unpkg.com/leaflet@1.9.4/dist/images/marker-shadow.png',
 })
 
-const API_URL = '/api/watershed-analysis'
+const API_URL = `${import.meta.env.VITE_API_URL}/watershed-analysis`;
 const INITIAL_CENTER = [20.5937, 78.9629]
 
 function GeomanControls({ onPolygonCreated }) {
@@ -314,10 +314,10 @@ function App() {
               {status === 'loading'
                 ? 'Processing multi-band satellite composites...'
                 : status === 'success'
-                ? 'Multi-spectral watershed analysis complete'
-                : status === 'error'
-                ? 'Analysis unavailable'
-                : 'Awaiting boundary selection'}
+                  ? 'Multi-spectral watershed analysis complete'
+                  : status === 'error'
+                    ? 'Analysis unavailable'
+                    : 'Awaiting boundary selection'}
             </span>
           </div>
 
