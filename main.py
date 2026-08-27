@@ -25,7 +25,7 @@ logger = logging.getLogger(__name__)
 
 # CORS is handled by FastAPI before the POST reaches the analysis endpoint.
 ALLOWED_ORIGINS = [
-    "https://geospatial-watershed-owvzvo5gw-aditya-banavalis-projects.vercel.app",
+    "https://geospatial-watershed-final.vercel.app",
     "http://localhost:5173",
     "http://localhost:4173",
 ]
