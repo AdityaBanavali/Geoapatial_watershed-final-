@@ -95,7 +95,7 @@ The frontend application will run locally at `http://localhost:5173`.
 
 ## 📄 License
 
-This project is open-source and available under the [MIT License](https://opensource.org/licenses/MIT).
+This project is open-source and available under the [MIT License](./LICENSE).
 ```
 
 ```
